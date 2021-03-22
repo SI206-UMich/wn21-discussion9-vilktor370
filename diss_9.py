@@ -17,7 +17,15 @@ def getCharmanderLink(soup):
 #         them into a list. The function should return that list of moves.
 def getEggMoves(pokemon):
     url = 'https://pokemondb.net/pokedex/' + pokemon
-    # add code here
+    moves = []
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    tables = soup.find_all('table', {'class': 'data-table'})
+    target_table = tables[2]
+    a_tags = target_table.find_all('a', {'class': 'ent-name'})
+    for i in a_tags:
+        moves.append(i.text)
+    return moves
 
 
 # Task 3: Create a regex expression that will find all the times that have these formats: @2pm @5 pm @10am
